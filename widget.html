@@ -47,7 +47,7 @@
 
             window.confirmSave = function() {
                 document.getElementById("app").innerHTML = '<div style="font-family:Arial,sans-serif;padding:24px;text-align:center;"><div style="font-size:15px;color:#444;">Saving...</div></div>';
-                ZOHO.CRM.FUNCTIONS.execute("saveClassification", {
+                ZOHO.CRM.FUNCTIONS.execute("saveclassification", {
                     arguments: JSON.stringify({
                         accountId:  recId.toString(),
                         sicCode:    result.sic_code,

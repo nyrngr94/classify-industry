@@ -14,17 +14,17 @@
 
         ZOHO.CRM.FUNCTIONS.execute("classifywebsite", {
             arguments: JSON.stringify({ accountId: recId.toString() })
-        })
         }).then(function(response) {
 
             var result;
-        try {
-            var raw = response.details.output;
-            result = JSON.parse(raw);
-        } catch(e) {
-            showError("Raw output: " + JSON.stringify(response));
-            return;
-        }
+            try {
+                var raw = response.details.output;
+                result = JSON.parse(raw);
+            } catch(e) {
+                showError("Could not parse result: " + JSON.stringify(response));
+                return;
+            }
+
             if(result.error) {
                 showError(result.error);
                 return;
@@ -70,9 +70,10 @@
                 ZOHO.CRM.UI.Popup.close();
             };
 
-            }).catch(function(err) {
-                showError("Function call failed: " + JSON.stringify(err));
-            });
+        }).catch(function(err) {
+            showError("Function call failed: " + JSON.stringify(err));
+        });
+
         function showError(msg) {
             document.getElementById("app").innerHTML =
                 '<div style="font-family:Arial,sans-serif;padding:24px;text-align:center;">' +

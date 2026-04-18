@@ -46,4 +46,48 @@
                 '</div></div>';
 
             window.confirmSave = function() {
-                document.getElementById("app").innerHTML = '<div style="font-family:Arial,sans-serif;padding:24px;text-align:center;"><div style="f
+                document.getElementById("app").innerHTML = '<div style="font-family:Arial,sans-serif;padding:24px;text-align:center;"><div style="font-size:15px;color:#444;">Saving...</div></div>';
+                ZOHO.CRM.FUNCTIONS.execute("saveClassification", {
+                    arguments: JSON.stringify({
+                        accountId:  recId.toString(),
+                        sicCode:    result.sic_code,
+                        sicName:    result.sic_name,
+                        naicsCode:  result.naics_code,
+                        naicsName:  result.naics_name
+                    })
+                }).then(function() {
+                    document.getElementById("app").innerHTML =
+                        '<div style="font-family:Arial,sans-serif;padding:24px;text-align:center;">' +
+                        '<div style="font-size:22px;color:#2e7d32;margin-bottom:8px;">&#10003;</div>' +
+                        '<div style="font-size:15px;font-weight:bold;color:#222;">Saved successfully</div>' +
+                        '<div style="font-size:13px;color:#888;margin-top:6px;">SIC ' + result.sic_code + ' &middot; NAICS ' + result.naics_code + '</div>' +
+                        '</div>';
+                    setTimeout(function() { ZOHO.CRM.UI.Popup.close(); }, 2000);
+                });
+            };
+
+            window.cancelAction = function() {
+                ZOHO.CRM.UI.Popup.close();
+            };
+
+        }).catch(function(err) {
+            showError("Function call failed.");
+        });
+
+        function showError(msg) {
+            document.getElementById("app").innerHTML =
+                '<div style="font-family:Arial,sans-serif;padding:24px;text-align:center;">' +
+                '<div style="font-size:15px;color:#c62828;">' + msg + '</div>' +
+                '<button onclick="ZOHO.CRM.UI.Popup.close()" style="margin-top:16px;padding:8px 20px;border:1px solid #ccc;border-radius:4px;background:#fff;cursor:pointer;">Close</button>' +
+                '</div>';
+        }
+    });
+
+    ZOHO.embeddedApp.init();
+    </script>
+    <style>
+        .spinner { width:32px;height:32px;margin:0 auto;border:3px solid #e0e0e0;border-top:3px solid #0066cc;border-radius:50%;animation:spin 0.8s linear infinite; }
+        @keyframes spin { to { transform:rotate(360deg); } }
+    </style>
+</body>
+</html>

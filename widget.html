@@ -69,10 +69,9 @@
                 ZOHO.CRM.UI.Popup.close();
             };
 
-        }).catch(function(err) {
-            showError("Function call failed.");
-        });
-
+            }).catch(function(err) {
+                showError("Function call failed: " + JSON.stringify(err));
+            });
         function showError(msg) {
             document.getElementById("app").innerHTML =
                 '<div style="font-family:Arial,sans-serif;padding:24px;text-align:center;">' +

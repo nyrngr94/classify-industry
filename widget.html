@@ -4,15 +4,13 @@
 </head>
 <body>
     <div id="app" style="padding:20px;font-family:Arial;">Loading...</div>
-    <script src="./ZohoEmbededAppSDK.min.js" onload="initWidget()" onerror="document.getElementById('app').innerHTML='SDK failed: ' + this.src"></script>
+    <script src="./ZohoEmbededAppSDK.min.js"></script>
     <script>
-    function initWidget() {
-        document.getElementById("app").innerHTML = "Step 1: SDK loaded";
-        ZOHO.embeddedApp.on("PageLoad", function(data) {
-            document.getElementById("app").innerHTML = "Step 2: PageLoad fired. EntityId=" + JSON.stringify(data);
-        });
-        ZOHO.embeddedApp.init();
-    }
+    document.getElementById("app").innerHTML = "Step 1: Script running";
+    ZOHO.embeddedApp.on("PageLoad", function(data) {
+        document.getElementById("app").innerHTML = "Step 2: PageLoad fired. EntityId=" + JSON.stringify(data);
+    });
+    ZOHO.embeddedApp.init();
     </script>
 </body>
 </html>

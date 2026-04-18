@@ -12,8 +12,9 @@
 
         document.getElementById("app").innerHTML = '<div style="font-family:Arial,sans-serif;padding:24px;text-align:center;min-width:360px;"><div style="font-size:16px;color:#444;margin-bottom:8px;">Analyzing website...</div><div style="font-size:13px;color:#888;">Fetching pages and classifying industry</div><div style="margin-top:20px;"><div class="spinner"></div></div></div>';
 
-        ZOHO.CRM.FUNCTIONS.execute("classifyWebsite", {
+        ZOHO.CRM.FUNCTIONS.execute("classifywebsite", {
             arguments: JSON.stringify({ accountId: recId.toString() })
+        })
         }).then(function(response) {
 
             var result;

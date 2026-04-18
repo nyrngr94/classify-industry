@@ -17,14 +17,13 @@
         }).then(function(response) {
 
             var result;
-            try {
-                var raw = response.details.output;
-                result = JSON.parse(raw);
-            } catch(e) {
-                showError("Could not parse classification result.");
-                return;
-            }
-
+        try {
+            var raw = response.details.output;
+            result = JSON.parse(raw);
+        } catch(e) {
+            showError("Raw output: " + JSON.stringify(response));
+            return;
+        }
             if(result.error) {
                 showError(result.error);
                 return;

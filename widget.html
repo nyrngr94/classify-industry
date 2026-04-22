@@ -14,7 +14,7 @@
             document.getElementById("app").innerHTML =
                 '<div style="font-family:Arial,sans-serif;padding:24px;text-align:center;min-width:360px;">' +
                 '<div style="font-size:16px;color:#444;margin-bottom:8px;">' + msg + '</div>' +
-                '<div style="font-size:13px;color:#888;">This may take 10-20 seconds</div>' +
+                '<div style="font-size:13px;color:#888;">Targeting services, about, and product pages...</div>' +
                 '<div style="margin-top:20px;"><div class="spinner"></div></div>' +
                 '</div>';
         }
@@ -25,6 +25,12 @@
                 '<div style="font-size:15px;color:#c62828;">' + msg + '</div>' +
                 '<button onclick="ZOHO.CRM.UI.Popup.close()" style="margin-top:16px;padding:8px 20px;border:1px solid #ccc;border-radius:4px;background:#fff;cursor:pointer;">Close</button>' +
                 '</div>';
+        }
+
+        function confidenceBadge(level) {
+            var color = level === "high" ? "#2e7d32" : level === "medium" ? "#e65100" : "#c62828";
+            var bg = level === "high" ? "#e8f5e9" : level === "medium" ? "#fff3e0" : "#ffebee";
+            return '<span style="display:inline-block;padding:2px 10px;border-radius:10px;font-size:11px;font-weight:bold;color:' + color + ';background:' + bg + ';text-transform:uppercase;">' + (level || "unknown") + ' confidence</span>';
         }
 
         function showExisting(result) {
@@ -55,14 +61,22 @@
 
         function showResult(result) {
             document.getElementById("app").innerHTML =
-                '<div style="font-family:Arial,sans-serif;padding:24px;min-width:420px;">' +
-                '<div style="font-size:17px;font-weight:bold;color:#222;margin-bottom:6px;">Industry Classification</div>' +
-                '<div style="font-size:13px;color:#888;margin-bottom:12px;">Based on: <a href="' + result.website + '" target="_blank" style="color:#0066cc;">' + result.website + '</a></div>' +
+                '<div style="font-family:Arial,sans-serif;padding:24px;min-width:440px;">' +
+                '<div style="display:flex;align-items:center;gap:10px;margin-bottom:6px;">' +
+                '<div style="font-size:17px;font-weight:bold;color:#222;">Industry Classification</div>' +
+                confidenceBadge(result.confidence) +
+                '</div>' +
+                '<div style="font-size:12px;color:#888;margin-bottom:12px;">Based on: <a href="' + result.website + '" target="_blank" style="color:#0066cc;">' + result.website + '</a></div>' +
 
-                '<div style="background:#f0f7ff;border-left:3px solid #0066cc;padding:10px 14px;margin-bottom:16px;border-radius:0 4px 4px 0;">' +
-                '<div style="font-size:12px;color:#555;margin-bottom:4px;font-weight:bold;">WHAT CLAUDE THINKS THIS COMPANY DOES:</div>' +
+                '<div style="background:#f0f7ff;border-left:3px solid #0066cc;padding:10px 14px;margin-bottom:10px;border-radius:0 4px 4px 0;">' +
+                '<div style="font-size:11px;color:#555;margin-bottom:4px;font-weight:bold;text-transform:uppercase;">What Claude thinks this company does:</div>' +
                 '<div style="font-size:13px;color:#333;">' + (result.summary || "No summary available.") + '</div>' +
                 '</div>' +
+
+                (result.evidence ? '<div style="background:#f9f9f9;border-left:3px solid #aaa;padding:8px 12px;margin-bottom:12px;border-radius:0 4px 4px 0;">' +
+                '<div style="font-size:11px;color:#777;margin-bottom:2px;font-weight:bold;text-transform:uppercase;">Evidence source:</div>' +
+                '<div style="font-size:12px;color:#555;">' + result.evidence + '</div>' +
+                '</div>' : '') +
 
                 '<table style="width:100%;border-collapse:collapse;font-size:14px;margin-bottom:16px;">' +
                 '<tr style="background:#f5f5f5;"><td style="padding:9px 12px;color:#555;width:130px;">SIC Code</td><td style="padding:9px 12px;font-weight:bold;color:#222;">' + result.sic_code + '</td></tr>' +
@@ -73,7 +87,7 @@
 
                 '<div style="margin-bottom:16px;">' +
                 '<div style="font-size:13px;color:#555;margin-bottom:6px;">Not accurate? Describe what this company actually does and re-classify:</div>' +
-                '<textarea id="hintBox" placeholder="e.g. This is a private equity search fund looking to acquire small businesses in the Hudson Valley..." style="width:100%;height:70px;padding:8px;border:1px solid #ccc;border-radius:4px;font-size:13px;font-family:Arial;box-sizing:border-box;resize:vertical;"></textarea>' +
+                '<textarea id="hintBox" placeholder="e.g. This company installs and repairs residential plumbing systems in the Dallas area..." style="width:100%;height:70px;padding:8px;border:1px solid #ccc;border-radius:4px;font-size:13px;font-family:Arial;box-sizing:border-box;resize:vertical;"></textarea>' +
                 '</div>' +
 
                 '<div style="display:flex;gap:10px;justify-content:flex-end;">' +
